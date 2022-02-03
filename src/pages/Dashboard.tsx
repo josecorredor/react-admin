@@ -1,100 +1,113 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from '../components/Wrapper';
-import * as c3 from 'c3'; 
-import axios from 'axios';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale } from  'chart.js'
-import { Bar } from 'react-chartjs-2'
 import BarChart from '../Charts/BarChart';
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement
-)
+import BarChartDebt from '../Charts/BarChartDebt';
+import axios from 'axios';
 
 const Dashboard = () => {
-
-    var data = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    }
-    var options: {
-        maintainAspectRadio: false,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        },
-        legend: {
-            fontSize: 26
-        }
-    }
-
-    useEffect(() => {
-        (
-            async () => {
-
-            
-                const chart = c3.generate({
-                    bindto: '#chart',
-                    data: {
-                        x: 'x',
-                        columns: [
-                            ['x'],
-                            ['Sales'],
-                        ],
-                        types: {
-                            Sales: 'bar'
-                        }
-                    },
-                    axis: {
-                        x: {
-                            type: 'timeseries',
-                            tick:{
-                                format: '%Y-%m-%d'
-                            }
-                        }
-                    }
-                });
-                const {data} = await axios.get('chart');
-
-                chart.load({
-                    columns: [
-                        ['x', ...data.map((r: any) => r.date)], 
-                        ['Sales', ...data.map((r: any) => r.sum)]
-                    ]
-                })
-            }
-        )()
-    },[]);
-        
     
+    const [incomes, setIncomes] = useState<any[]>([]);
+    const [expenses, setExpenses] = useState<any[]>([]);
+    const [iniDebt, setInitDebt] = useState<any[]>([]);
+    const [curDebt, setCurDebt] = useState<any[]>([]);
+    const [bank, setBank] = useState<any[]>([]);
+
+    const fetchSaving = async () => {
+        try {
+            const res = await axios.get('/chartBank');
+            setBank(res.data);
+
+            const res2 = await axios.get('/chartCurrentDebt');
+            setCurDebt(res2.data);
+
+            const res3 = await axios.get('/chartInitialDebt');
+            setInitDebt(res3.data);
+
+            const res6 = await axios.get('/chartIncomesW');
+            setIncomes(res6.data);
+
+            const res4 = await axios.get('/chartOutcomesW');
+            setExpenses(res4.data);
+
+
+          } catch (error) {
+            console.log(error);
+          }
+    }
+    useEffect(() =>  {fetchSaving();}, []);
+        
     return (
         <Wrapper>
-           <h2>Daily sales</h2>
-
-           {/* <div id="chart"></div> */}
-           <BarChart />
+           <h2>Accounting</h2>
+                <div className="row justify-content-center">
+                    <div className="col-2 card rounded border-0">
+                        <div className="card text-center bg-white mb-2">
+                            <div className="card-header">Incomes</div>
+                            <div className="card-body">
+                                <h5 className="card-title">{incomes.map((x) => x.incomesw)}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-2 card rounded border-0">
+                        <div className="card text-center bg-white mb-2">
+                            <div className="card-header">Expenses</div>
+                            <div className="card-body">
+                                <h5 className="card-title">{expenses.map((x) => x.expensesw)}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-2 card rounded border-0">
+                        <div className="card text-center bg-white mb-2">
+                            <div className="card-header">Initial Debt</div>
+                            <div className="card-body">
+                                <h5 className="card-title">{iniDebt.map((x) => x.iniDeb)}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-2 card rounded border-0">
+                        <div className="card text-center bg-white mb-2">
+                            <div className="card-header">Current Debt</div>
+                            <div className="card-body">
+                                <h5 className="card-title">{curDebt.map((x) => x.curDeb)}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-2 card rounded border-0">
+                        <div className="card text-center bg-white mb-2">
+                            <div className="card-header">Last balance</div>
+                            <div className="card-body">
+                                <h5 className="card-title">{bank.map((x) => x.ant)}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-2 card rounded border-0">
+                        <div className="card text-center bg-white mb-2">
+                            <div className="card-header">Current balance</div>
+                            <div className="card-body">
+                                <h5 className="card-title">{bank.map((x) => x.cur)}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col-6 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Savings</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><BarChart /></div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div className="col-6 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Financial obligation</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><BarChartDebt /></div>
+                            </div>
+                        </div> 
+                    </div>     
+                </div>
+           
 
         </Wrapper>
     )   

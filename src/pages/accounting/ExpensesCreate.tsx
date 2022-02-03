@@ -68,7 +68,7 @@ const ExpensesCreate = () => {
                     <option value={''}>Please select an option -</option>    
                     {week.map((w: Week)=> {
                         return (
-                            <option key={w.id_week} value={w.id_week}>{w.name} from {w.date_s} to {w.date_s}</option>
+                            <option key={w.id_week} value={w.id_week}>{w.name} from {w.date_s} to {w.date_f}</option>
                         )
                     })}
                     </select>
