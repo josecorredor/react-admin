@@ -6,6 +6,7 @@ import axios from 'axios';
 import DoughnutChart from '../Charts/DoughnutChart';
 import DoughnutChartKind from '../Charts/DoughnutChartKind';
 import ChartLine from '../Charts/ChartLine';
+import BarChartIncomes from '../Charts/BarChartIncomes';
 
 const Dashboard = () => {
     
@@ -14,9 +15,13 @@ const Dashboard = () => {
     const [iniDebt, setInitDebt] = useState<any[]>([]);
     const [curDebt, setCurDebt] = useState<any[]>([]);
     const [bank, setBank] = useState<any[]>([]);
+    const [week, setWeek] = useState<any[]>([]);
 
     const fetchSaving = async () => {
         try {
+            const res5 = await axios.get('/chartWeek');
+            setWeek(res5.data);
+
             const res = await axios.get('/chartBank');
             setBank(res.data);
 
@@ -41,10 +46,10 @@ const Dashboard = () => {
         
     return (
         <Wrapper>
-           <h2>Accounting</h2>
+           <div className="d-flex"><h4>Accounting for {week.map((x) => x.name)} From {week.map((x) => x.date_s)} to {week.map((x) => x.date_f)}</h4></div>
                 <div className="row justify-content-center">
                     <div className="col-2 card rounded border-0">
-                        <div className="card text-center bg-white mb-2">
+                        <div className="card text-center bg-white mt-2 mb-2">
                             <div className="card-header">Incomes</div>
                             <div className="card-body">
                                 <h5 className="card-title">{incomes.map((x) => x.incomesw)}</h5>
@@ -52,7 +57,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="col-2 card rounded border-0">
-                        <div className="card text-center bg-white mb-2">
+                        <div className="card text-center bg-white mt-2 mb-2">
                             <div className="card-header">Expenses</div>
                             <div className="card-body">
                                 <h5 className="card-title">{expenses.map((x) => x.expensesw)}</h5>
@@ -60,7 +65,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="col-2 card rounded border-0">
-                        <div className="card text-center bg-white mb-2">
+                        <div className="card text-center bg-white mt-2 mb-2">
                             <div className="card-header">Initial Debt</div>
                             <div className="card-body">
                                 <h5 className="card-title">{iniDebt.map((x) => x.iniDeb)}</h5>
@@ -68,7 +73,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="col-2 card rounded border-0">
-                        <div className="card text-center bg-white mb-2">
+                        <div className="card text-center bg-white mt-2 mb-2">
                             <div className="card-header">Current Debt</div>
                             <div className="card-body">
                                 <h5 className="card-title">{curDebt.map((x) => x.curDeb)}</h5>
@@ -76,7 +81,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="col-2 card rounded border-0">
-                        <div className="card text-center bg-white mb-2">
+                        <div className="card text-center bg-white mt-2 mb-2">
                             <div className="card-header">Last balance</div>
                             <div className="card-body">
                                 <h5 className="card-title">{bank.map((x) => x.ant)}</h5>
@@ -84,7 +89,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="col-2 card rounded border-0">
-                        <div className="card text-center bg-white mb-2">
+                        <div className="card text-center bg-white mt-2 mb-2">
                             <div className="card-header">Current balance</div>
                             <div className="card-body">
                                 <h5 className="card-title">{bank.map((x) => x.cur)}</h5>
@@ -113,6 +118,24 @@ const Dashboard = () => {
                 <div className="row justify-content-center">
                     <div className="col-6 card rounded border-0">
                         <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Incomes vs Outcomes</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><ChartLine /></div>
+                            </div>
+                        </div> 
+                    </div>   
+                    <div className="col-6 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Incomes</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><BarChartIncomes /></div>
+                            </div>
+                        </div> 
+                    </div>  
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col-6 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
                             <div className="card-header">Expense classification</div>
                             <div className="card-body">
                                 <div className="card rounded bg-white "><DoughnutChartKind /></div>
@@ -128,18 +151,6 @@ const Dashboard = () => {
                         </div> 
                     </div>     
                 </div>
-                <div className="row justify-content-center">
-                    <div className="col-12 card rounded border-0">
-                        <div className="card text-center bg-light mb-2">
-                            <div className="card-header">Incomes vs Outcomes</div>
-                            <div className="card-body">
-                                <div className="card rounded bg-white "><ChartLine /></div>
-                            </div>
-                        </div> 
-                    </div>    
-                </div>
-           
-
         </Wrapper>
     )   
 }

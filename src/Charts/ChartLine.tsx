@@ -89,7 +89,7 @@ const ChartLine = () => {
         
     
     return (
-           <Line data={data} options={options} height={90}/>
+           <Line data={data} options={options}/>
     )    
 }
 
