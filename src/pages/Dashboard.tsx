@@ -3,6 +3,9 @@ import Wrapper from '../components/Wrapper';
 import BarChart from '../Charts/BarChart';
 import BarChartDebt from '../Charts/BarChartDebt';
 import axios from 'axios';
+import DoughnutChart from '../Charts/DoughnutChart';
+import DoughnutChartKind from '../Charts/DoughnutChartKind';
+import ChartLine from '../Charts/ChartLine';
 
 const Dashboard = () => {
     
@@ -106,6 +109,34 @@ const Dashboard = () => {
                             </div>
                         </div> 
                     </div>     
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col-6 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Expense classification</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><DoughnutChartKind /></div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div className="col-6 card rounded border-0 style='height: 8rem'">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Expenses per Week</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><DoughnutChart /></div>
+                            </div>
+                        </div> 
+                    </div>     
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col-12 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Incomes vs Outcomes</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><ChartLine /></div>
+                            </div>
+                        </div> 
+                    </div>    
                 </div>
            
 

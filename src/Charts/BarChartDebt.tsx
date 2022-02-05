@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title, ChartOptions } from  'chart.js'
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend, Title} from  'chart.js'
 import { Bar } from 'react-chartjs-2'
 import axios from 'axios';
 
@@ -15,8 +15,8 @@ const BarChartDebt = () => {
 
     const fetchSaving1 = async () => {
         try {
-            const res = await axios.get('/chartDebts');
-            setChartDebts(res.data.filter((u: { currentdeb: number; }) => u.currentdeb > 0));
+            const res = await axios.get('/chartStateDebt');
+            setChartDebts(res.data.filter((u: { curDebt: number; }) => u.curDebt > 0));
             
             // const updatePercentage = () => {
             //     const newDebt = chartDebts.map((debt) => {
@@ -53,7 +53,7 @@ const BarChartDebt = () => {
             borderWidth: 1
         },{
             label: 'Current Debt',
-            data: chartDebts.map((y) => y.currentdeb),
+            data: chartDebts.map((y) => y.curDebt),
             backgroundColor: [
                 'rgba(255, 159, 64, 0.2)'
             ],
