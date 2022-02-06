@@ -2,7 +2,6 @@
   "name": "react-admin",
   "version": "0.1.0",
   "private": true,
-  //"proxy": "http://localhost:8000/api",
   "proxy": "http://3.25.74.125:8000/api",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
