@@ -54,7 +54,7 @@ const Login = () => {
 
                 <button className="m3 w-100 btn btn-lg btn-primary" type="submit">Submit</button>
                 {hidden ? <div id='messInfor' className="messInfo">
-                    <div id='messageForm' className="alert alert-info" role="alert"></div>
+                    <div id='messageForm' className="alert alert-primary" role="alert"></div>
                 </div>:null}
                 <p className="copy">&copy; 2021</p>
             </form>
