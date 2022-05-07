@@ -7,9 +7,15 @@ import DoughnutChart from '../Charts/DoughnutChart';
 import DoughnutChartKind from '../Charts/DoughnutChartKind';
 import ChartLine from '../Charts/ChartLine';
 import BarChartIncomes from '../Charts/BarChartIncomes';
+import ChartLinePetCom from '../Charts/ChartLinePetCom';
+import ChartLineCom from '../Charts/ChartLineCom';
+import DoughnutJoseFiscal from '../Charts/DoughnutJoseFiscal';
+import DoughnutPaolaFiscal from '../Charts/DoughnutPaolaFiscal';
 
 const Dashboard = () => {
     
+    const [fiscalJose, setFiscalJose] = useState<any[]>([]);
+    const [fiscalPaola, setFiscalPaola] = useState<any[]>([]);
     const [incomes, setIncomes] = useState<any[]>([]);
     const [expenses, setExpenses] = useState<any[]>([]);
     const [iniDebt, setInitDebt] = useState<any[]>([]);
@@ -36,6 +42,12 @@ const Dashboard = () => {
 
             const res4 = await axios.get('/chartOutcomesW');
             setExpenses(res4.data);
+
+            const res7 = await axios.get('/chartFiscalSJ');
+            setFiscalJose(res7.data);
+
+            const res8 = await axios.get('/chartFiscalSP');
+            setFiscalPaola(res8.data);
 
 
           } catch (error) {
@@ -147,6 +159,42 @@ const Dashboard = () => {
                             <div className="card-header">Expenses per Week</div>
                             <div className="card-body">
                                 <div className="card rounded bg-white "><DoughnutChart /></div>
+                            </div>
+                        </div> 
+                    </div>     
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col-6 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Petrol</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><ChartLinePetCom /></div>
+                            </div>
+                        </div> 
+                    </div>   
+                    <div className="col-6 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Food</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><ChartLineCom/></div>
+                            </div>
+                        </div> 
+                    </div>   
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col-6 card rounded border-0">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Jose's Fiscal Year - AUD {fiscalJose.map((x) => x.valJosFis)}</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><DoughnutJoseFiscal /></div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div className="col-6 card rounded border-0 style='height: 8rem'">
+                        <div className="card text-center bg-light mb-2">
+                            <div className="card-header">Paola's Fiscal Year - AUD {fiscalPaola.map((x) => x.valPaoFis)}</div>
+                            <div className="card-body">
+                                <div className="card rounded bg-white "><DoughnutPaolaFiscal /></div>
                             </div>
                         </div> 
                     </div>     
